@@ -32,7 +32,7 @@ $env = $app->detectEnvironment(function() {
 		return require __DIR__.'/../environment.php';
 	}
 	else {
-		return production;
+		return 'production';
 	}
 	//'local' => array('homestead'),
 });
