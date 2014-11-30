@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRecipesTable extends Migration {
+class CreateUsersTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,13 @@ class CreateRecipesTable extends Migration {
 	 */
 	public function up()
 	{
-        Schema::create('recipes', function($table) {
+        Schema::create('users', function($table) {
 
             $table->increments('id');
+            $table->string('email')->unique();
+            $table->string('remember_token',100);
+            $table->string('password');
             $table->timestamps();
-
-            # The recipe field is the yumle link to the recipe...
-            $table->string('recipe');
         });
 	}
 
@@ -29,7 +29,6 @@ class CreateRecipesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('recipes');
+        Schema::drop('users');
 	}
-
 }

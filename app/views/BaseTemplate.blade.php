@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>Plan Your Trip (P4)</title>
+    <title>Dinner Lazy (P4)</title>
 
     <link rel='stylesheet' href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css' type='text/css'>
     <link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/flatly/bootstrap.min.css" rel="stylesheet">
@@ -21,7 +21,6 @@
             border-radius: 5px;
         }
 
-
     </style>
 
 
@@ -33,7 +32,6 @@
     <div class="container" id="mainBody">
         <div class="navbar navbar-default" role="navigation">
             <div class="container-fluid">
-
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -42,7 +40,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Plan Your Trip (P3)</a>
+                    <a class="navbar-brand" href="">Dinner Lazy - P4</a>
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->

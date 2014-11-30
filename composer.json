@@ -6,7 +6,8 @@
 	"require": {
 		"laravel/framework": "4.2.*",
 		"camspiers/json-pretty": "1.0.*",
-		"paste/pre": "dev-master"
+		"paste/pre": "dev-master",
+		"barryvdh/laravel-debugbar": "1.8.*@dev"
 	},
 	"autoload": {
 		"classmap": [
