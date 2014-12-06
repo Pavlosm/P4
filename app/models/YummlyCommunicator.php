@@ -165,7 +165,7 @@ class YummlyCommunicator {
 
 
         $recURLLink = '<a class="image-provided" href="'.$theRecipe['attribution']['url'].'" target="blank">'.$theRecipe['name'].
-            '</a><br />information provided by <img src="'.$theRecipe['attribution']['logo'].'"/>';
+            '</a><br /><br />information provided by <img class="logo" src="'.$theRecipe['attribution']['logo'].'"/>';
         $image = $theRecipe['images'][0]['hostedSmallUrl'];
         $ingredients = $theRecipe['ingredientLines'];
 
@@ -191,7 +191,7 @@ class YummlyCommunicator {
 
 
         $recURLLink = '<a class="image-provided" href="'.$theRecipe['attribution']['url'].'" target="blank">'.$theRecipe['name'].
-            '</a><br />information provided by <img src="'.$theRecipe['attribution']['logo'].'"/>';
+            '</a><br />information provided by <img class="logo" src="'.$theRecipe['attribution']['logo'].'"/>';
         $image = $theRecipe['images'][0]['hostedSmallUrl'];
         $ingredients = $theRecipe['ingredientLines'];
 

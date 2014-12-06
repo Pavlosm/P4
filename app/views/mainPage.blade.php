@@ -2,6 +2,7 @@
 
 @section('style')
      <link rel="stylesheet" href="styles/mainpage.css" type="text/css">
+     <link rel="stylesheet" href="styles/common.css" type="text/css">
 @stop
 
 @section('scripts')

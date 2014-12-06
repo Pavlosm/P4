@@ -91,9 +91,7 @@ class MainPageController extends BaseController {
      */
     public function saveRecipe($recipe) {
 
-        $the_recipe = "http://www.yummly.com/recipe/".$recipe;
-
-        DatabaseManager::AddRecipeToUser($user = Auth::user()->id, $the_recipe);
+        DatabaseManager::AddRecipeToUser($user = Auth::user()->id, $recipe);
 
         return RecipeToHtml::GenerateDeleteButton($recipe);
     }
@@ -105,8 +103,8 @@ class MainPageController extends BaseController {
      */
     public function deleteRecipe($recipe) {
 
-        $the_recipe = "http://www.yummly.com/recipe/".$recipe;
-        DatabaseManager::RemoveUserRecipe($user = Auth::user()->id, $the_recipe);
+        $recipe;
+        DatabaseManager::RemoveUserRecipe($user = Auth::user()->id, $recipe);
         return "done";
     }
 

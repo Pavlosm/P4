@@ -1,0 +1,40 @@
+.row {
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+
+
+.recipes {
+     padding: 15px;
+     background-color: #fffbf4;
+     border-radius: 10px;
+     border-color: #eaecc8;
+     border-bottom-style: solid;
+     -webkit-box-shadow: 0 10px 6px -6px #777;
+     -moz-box-shadow: 0 10px 6px -6px #777;
+     box-shadow: 0 10px 6px -6px #777;
+ }
+
+.warning {
+    background-color: #f5f3fb;
+}
+
+.form {
+    padding-left: 20px;
+    background-color: #eceaff;
+    border-radius: 10px;
+    max-width: 1000px;
+}
+
+img {
+    width: 100%;
+}
+
+.image {
+    padding-bottom: 10px;
+}
+
+.logo {
+    max-width: 100px;
+}

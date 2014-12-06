@@ -19,17 +19,23 @@ class DatabaseManager {
      * @param $recipe string the recipe query
      * @return string
      */
-    public function AddRecipe($recipe) {
+    public function AddRecipe($recipe, $recipe_id) {
 
         $rec = Recipe::where('recipe', '=', $recipe)->get();
 
         if ($rec->isEmpty()) {
-            $rec = new Recipe();
-            $rec->recipe = $recipe;
-            $rec->save();
+            $this->createRecipe($recipe, $recipe_id);
         }
     }
 
+    private function createRecipe($recipe, $recipe_id) {
+
+        $rec = new Recipe();
+        $rec->recipe = $recipe;
+        $rec->recipe_id = $recipe_id;
+        $rec->save();
+
+    }
 
     private function RemoveRecipe($recipe) {
 
@@ -82,13 +88,6 @@ class DatabaseManager {
             $rec->recipe = $recipe;
             $rec->save();
         }
-
-        //$tuple = Recipe_User::where('recipe_id', '=', $rec->id)
-                                //->where('user_id', '=', $userId);
-
-        //if($tuple) {
-           // return 'exists';
-        //}
 
         # Finally, If there is no duplicate user - recipe pair in the pivot
         # table add it.
@@ -191,27 +190,16 @@ class DatabaseManager {
         return User::find($userId)->recipes;
     }
 
-    public function test() {
-
-        $user = User::find(4);
-
-        if ($user->recipes()->first()) {
-            return "true";
-        } else {
-            return "false";
-        }
-        return 'Worked';
-    }
 
 
-    public function CreateRecipe($recipe) {
-
-        $rec = Recipe::where('recipe', '=', $recipe)->first();
-
-        if (!$rec) {
-            $rec = new Recipe();
-            $rec->recipe = $recipe;
-            $rec->save();
-        }
-    }
+//    public function CreateRecipe($recipe) {
+//
+//        $rec = Recipe::where('recipe', '=', $recipe)->first();
+//
+//        if (!$rec) {
+//            $rec = new Recipe();
+//            $rec->recipe = $recipe;
+//            $rec->save();
+//        }
+//    }
 }

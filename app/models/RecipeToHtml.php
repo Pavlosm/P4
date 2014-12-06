@@ -77,9 +77,9 @@ class RecipeToHtml {
 
     public function recipeToHtml2($image, $recipe, $ingredients, $recId)
     {
-           // $ret  = '<div class="recipes">';
+        $ret  = '<div class="recipes">';
 
-        $ret  =     '<div class="row" id="div'.$recId.'">';
+        $ret .=     '<div class="row" id="div'.$recId.'">';
         $ret .=         '<div class="col-md-2">';
         $ret .=             '<img src="'.$image.'" alt="recipe"/>';
         $ret .=         '</div>';
@@ -103,7 +103,7 @@ class RecipeToHtml {
 
         $ret .=         '</div>';
         $ret .=     '</div>';
-
+        $ret .= '</div><br />';
         return $ret;
     }
 

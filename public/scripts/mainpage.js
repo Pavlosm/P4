@@ -1,14 +1,28 @@
+function createXMLHttpRequest() {
+
+    if (window.XMLHttpRequest) {
+        return new XMLHttpRequest();
+    } else {
+        return new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+}
+
+
 function refreshRecipe(id)
 {
+    alert("1 | refresh recipe called");
     var xmlhttp = createXMLHttpRequest();
 
     var hidden_id = "hid" + id;
     var div_id = "div" + id;
     var div = document.getElementById(div_id).parentElement;
 
+    alert("2 | basic elements received");
+
     var ingredients = document.getElementById(hidden_id).innerHTML;
 
-    alert( ingredients.trim() == "");
+    alert("3 | Ingredients obtained");
 
     div.innerHTML = "loading ...";
 
@@ -31,50 +45,15 @@ function refreshRecipe(id)
 }
 
 
-function actionToRecipe(button, id, value) {
-
-    var xmlhttp = createXMLHttpRequest();
-    var container = document.getElementById('recipes-container');
-
-    xmlhttp.onreadystatechange = function()
-    {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            var val = xmlhttp.responseText;
-            button.innerHTML = val;
-            button.id = val;
-        }
-        else {
-            div.innerHTML = xmlhttp.readyState + " || " + xmlhttp.status;
-        }
-    }
-
-    var query = "main/refresh/" + id;
-    if(ingredients.trim() != "")
-    {
-        query += "/" + ingredients;
-    }
-    xmlhttp.open("POST", query, true);
-    xmlhttp.send();
-
-}
-
-
-function createXMLHttpRequest() {
-
-    if (window.XMLHttpRequest) {
-        return new XMLHttpRequest();
-    } else {
-        return new ActiveXObject("Microsoft.XMLHTTP");
-    }
-
-}
-
-
 function saveRecipe(button) {
+
+    alert("1 | save recipe called");
 
     var xmlhttp = createXMLHttpRequest();
 
     var div = button.parentElement;
+
+    alert("2 | basic elements received");
 
     xmlhttp.onreadystatechange = function()
     {
@@ -98,10 +77,13 @@ function saveRecipe(button) {
 
 function deleteRecipe(button_id) {
 
+    alert("1 | delete recipe called");
 
     var xmlhttp = createXMLHttpRequest();
     var id = "div" + button_id.slice(2);
     var div = document.getElementById(id).parentNode;
+
+    alert("2 | basic elements received");
 
     xmlhttp.onreadystatechange = function()
     {
