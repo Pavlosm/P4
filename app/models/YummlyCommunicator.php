@@ -1,7 +1,7 @@
 <?php
 
 namespace Pav\Communicators;
-include ('RecipeToHtml.php');
+use Pav\RecipeToHtml\RecipeToHtml;
 
 
 
@@ -36,7 +36,8 @@ class YummlyCommunicator {
 
     private $search_parameters;
 
-    private $recToHtml;
+    private $recipeToHtml;
+
 
     #endregion
 
@@ -45,7 +46,7 @@ class YummlyCommunicator {
         $this->getApiUrl  = 'http://api.yummly.com/v1/api/recipe/';
         $this->searchApiUrl = 'http://api.yummly.com/v1/api/recipes';
         $this->search_parameters = '';
-        $this->recToHtml = new RecipeToHtml();
+        $this->recipeToHtml = new RecipeToHtml();
     }
 
 
@@ -61,6 +62,8 @@ class YummlyCommunicator {
     public function getRecipe($ingredients, $isLoggedIn, $includeContainer) {
 
         $this->Initialize();
+
+
         $this->isLoggedIn = $isLoggedIn;
         $this->search_parameters = $ingredients;
 
@@ -165,7 +168,8 @@ class YummlyCommunicator {
         $image = $theRecipe['images'][0]['hostedSmallUrl'];
         $ingredients = $theRecipe['ingredientLines'];
 
-        return $this->recipeToHtml($image, $recURLLink, $ingredients, $recId, $includeContainer);
+        return $this->recipeToHtml->recipeToHtml($image, $recURLLink, $ingredients, $recId, $this->search_parameters,
+            $this->isLoggedIn, $includeContainer);
     }
 
 
@@ -202,128 +206,125 @@ class YummlyCommunicator {
     #endregion
 
 
-    #region format recipe to html format
-
-    /**
-     * Returns the recipe in HTML format suitable for display
-     *
-     * @param $image string the image URL
-     * @param $recipe string the recipe url already in html format
-     * @param $ingredients array a string array containing the ingredients
-     * @param $recId int ??
-     * @return string the html formatted recipe
-     */
-    private function recipeToHtml($image, $recipe, $ingredients, $recId, $includeConatainer) {
-
-        if ($includeConatainer) {
-            $ret  = '<div class="recipes">';
-        } else {
-            $ret = "";
-        }
-
-
-        $ret .=     '<div class="row" id="div'.$recId.'">';
-        $ret .=         '<div class="col-md-2">';
-        $ret .=             '<img src="'.$image.'" alt="recipe"/>';
-        $ret .=         '</div>';
-        $ret .=         '<div class="col-md-4">';
-        $ret .=             $recipe;
-        $ret .=         '</div>';
-        $ret .=         '<div class="col-md-4">';
-
-        if (is_array($ingredients)) {
-            foreach ($ingredients as $ing) {
-                $ret .= $ing."<br/>";
-            }
-        } else {
-            $ret .= $ingredients."<br/>";
-        }
-
-        $ret .=         '</div>';
-        $ret .=         '<div class="col-md-2">';
-
-        if ($this->isLoggedIn) {
-            $ret .= $this->Add_Refresh_Put_Buttons($recId);
-        } else {
-            $ret .= $this->GenerateSimpleRefreshButton($recId);
-        }
-
-        $ret .=         '</div>';
-        $ret .=     '</div>';
-        $ret .=     '<div class="row hidden" style="display: none;">';
-        $ret .=         '<div id="hid'.$recId.'">';
-        $ret .=             $this->search_parameters;
-        $ret .=         '</div>';
-        $ret .=     '</div>';
-
-        if ($includeConatainer) {
-            $ret .= '</div>';
-            $ret .= '<br/>';
-        }
-
-        return $ret;
-    }
-
-    /**
-     * Adds a refresh and a save button
-     * @return string
-     */
-    private function Add_Refresh_Put_Buttons($recUrl) {
-
-        $ret  = $this->GenerateSaveButton($recUrl);
-        $ret .= $this->GenerateSimpleRefreshButton($recUrl);
-        return $ret;
-
-    }
-
-    #endregion
-
-
-    #region Button generators
-
-    public function GenerateSaveButton($recipe) {
-
-        $button  = '<button class="form-control"';
-        $button .= 'id="a_'.$recipe.'" ';
-        $button .= 'onclick="saveRecipe(this)">';
-        $button .= '<span class="glyphicon glyphicon-upload"/>&nbsp</span>Save</button><br/>';
-
-        return $button;
-    }
-
-
-    public function GenerateDeleteButton($recipe) {
-
-        $button  = '<button class="form-control"';
-        $button .= 'id="a_'.$recipe.'" ';
-        $button .= 'onclick="addRecipe(this, this.id, this.value)">';
-        $button .= '<span class="glyphicon glyphicon-upload"/>&nbsp</span>Delete</button><br/>';
-
-        return $button;
-    }
-
-
-    public function GenerateRefreshButton($recipe) {
-
-        $button  = '<button class="form-control"';
-        $button .= 'id="'.$recipe.'" ';
-        $button .= 'value="refresh"';
-        $button .= 'onclick="addRecipe(this, this.id, this.value)">';
-        $button .= '<span class="glyphicon glyphicon-refresh"/>&nbsp</span>Refresh</button><br/>';
-
-        return $button;
-    }
-
-
-    public function GenerateSimpleRefreshButton($recipe) {
-
-        $button  = '<button class="form-control"';
-        $button .= 'id="'.$recipe.'" ';
-        $button .= 'onclick="refreshRecipe(this.id)">';
-        $button .= '<span class="glyphicon glyphicon-refresh"/>&nbsp</span>Refresh</button><br/>';
-
-        return $button;
-    }
+    #region Unused
+//
+//    /**
+//     * Returns the recipe in HTML format suitable for display
+//     *
+//     * @param $image string the image URL
+//     * @param $recipe string the recipe url already in html format
+//     * @param $ingredients array a string array containing the ingredients
+//     * @param $recId int ??
+//     * @return string the html formatted recipe
+//     */
+//    private function recipeToHtml($image, $recipe, $ingredients, $recId, $includeConatainer) {
+//
+//        if ($includeConatainer) {
+//            $ret  = '<div class="recipes">';
+//        } else {
+//            $ret = "";
+//        }
+//
+//        $ret .=     '<div class="row" id="div'.$recId.'">';
+//        $ret .=         '<div class="col-md-2">';
+//        $ret .=             '<img src="'.$image.'" alt="recipe"/>';
+//        $ret .=         '</div>';
+//        $ret .=         '<div class="col-md-4">';
+//        $ret .=             $recipe;
+//        $ret .=         '</div>';
+//        $ret .=         '<div class="col-md-4">';
+//
+//        if (is_array($ingredients)) {
+//            foreach ($ingredients as $ing) {
+//                $ret .= $ing."<br/>";
+//            }
+//        } else {
+//            $ret .= $ingredients."<br/>";
+//        }
+//
+//        $ret .=         '</div>';
+//        $ret .=         '<div class="col-md-2">';
+//
+//        if ($this->isLoggedIn) {
+//            $ret .= $this->Add_Refresh_Put_Buttons($recId);
+//        } else {
+//            $ret .= $this->GenerateSimpleRefreshButton($recId);
+//        }
+//
+//        $ret .=         '</div>';
+//        $ret .=     '</div>';
+//        $ret .=     '<div class="row hidden" style="display: none;">';
+//        $ret .=         '<div id="hid'.$recId.'">';
+//        $ret .=             $this->search_parameters;
+//        $ret .=         '</div>';
+//        $ret .=     '</div>';
+//
+//        if ($includeConatainer) {
+//            $ret .= '</div>';
+//            $ret .= '<br/>';
+//        }
+//
+//        return $ret;
+//    }
+//
+//    /**
+//     * Adds a refresh and a save button
+//     * @return string
+//     */
+//    private function Add_Refresh_Put_Buttons($recUrl) {
+//
+//        $ret  = $this->GenerateSaveButton($recUrl);
+//        $ret .= $this->GenerateSimpleRefreshButton($recUrl);
+//        return $ret;
+//
+//    }
+//
+//
+//
+//
+//    public function GenerateSaveButton($recipe) {
+//
+//        $button  = '<button class="form-control"';
+//        $button .= 'id="a_'.$recipe.'" ';
+//        $button .= 'onclick="saveRecipe(this)">';
+//        $button .= '<span class="glyphicon glyphicon-upload"/>&nbsp</span>Save</button><br/>';
+//
+//        return $button;
+//    }
+//
+//
+//    public function GenerateDeleteButton($recipe) {
+//
+//        $button  = '<button class="form-control"';
+//        $button .= 'id="a_'.$recipe.'" ';
+//        $button .= 'onclick="addRecipe(this, this.id, this.value)">';
+//        $button .= '<span class="glyphicon glyphicon-upload"/>&nbsp</span>Delete</button><br/>';
+//
+//        return $button;
+//    }
+//
+//
+//    public function GenerateRefreshButton($recipe) {
+//
+//        $button  = '<button class="form-control"';
+//        $button .= 'id="'.$recipe.'" ';
+//        $button .= 'value="refresh"';
+//        $button .= 'onclick="addRecipe(this, this.id, this.value)">';
+//        $button .= '<span class="glyphicon glyphicon-refresh"/>&nbsp</span>Refresh</button><br/>';
+//
+//        return $button;
+//    }
+//
+//
+//    public function GenerateSimpleRefreshButton($recipe) {
+//
+//        $button  = '<button class="form-control"';
+//        $button .= 'id="'.$recipe.'" ';
+//        $button .= 'onclick="refreshRecipe(this.id)">';
+//        $button .= '<span class="glyphicon glyphicon-refresh"/>&nbsp</span>Refresh</button><br/>';
+//
+//        return $button;
+//    }
 
     #endregion
 

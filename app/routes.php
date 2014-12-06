@@ -38,8 +38,9 @@ Route::get('/mysql-test', function() {
 });
 
 Route::get('/test', function() {
-
-    return RecipeToHtml::GenerateSaveButton('a recipe');
+        ;
+    return RecipeToHtml::recipeToHtml("http://sci.esa.int/science-e-media/img/96/Gaia_ngc1818_final_blue_fliprot.jpg",
+        "a recipe", "a, b, c", "12345", "a, b, c", true, true);
 });
 
 

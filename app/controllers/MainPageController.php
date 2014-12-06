@@ -3,16 +3,34 @@
 
 class MainPageController extends BaseController {
 
+
     public function __construct() {
         $this->beforeFilter('auth');
     }
 
+
+    /**
+     * @return mixed
+     */
     public function getIndex() {
 
         return View::Make('mainPage');
     }
 
+
+    /**
+     * @return mixed
+     */
     public function postIndex() {
+
+        # check which submit button was clicked
+
+        if (Input::get('get_my_recipes') != null) {
+            return View::Make('mainPage')->with('response', $this->getMyRecipesSubmit());
+        } else {
+            return View::Make('mainPage')->with('response', $this->getNewRecipesSubmit());
+        }
+
 
         $numOfRecipes = Input::get('numOfDays');
 
@@ -26,23 +44,56 @@ class MainPageController extends BaseController {
         return View::Make('mainPage')->with('response', $results);
     }
 
+    private function getMyRecipesSubmit() {
+
+        return "will get them";
+    }
 
 
+    private function getNewRecipesSubmit() {
+
+        $numOfRecipes = Input::get('numOfDays');
+
+        $results = "";
+
+        for($i =1; $i <= $numOfRecipes; $i++) {
+            $name = 'ing'.$i;
+            $results .= YummlyCommunicator::getRecipe(Input::get($name), true, true);
+        }
+
+        return $results;
+
+    }
+
+    /**
+     * @param string $ingredients
+     * @return mixed
+     */
     public function getRecipes($ingredients = "") {
         return YummlyCommunicator::getRecipe($ingredients, false, false);
     }
 
 
+    #region ajax queries
+
+    /**
+     * @param $recipe
+     * @return mixed
+     */
     public function saveRecipe($recipe) {
 
         $the_recipe = "http://www.yummly.com/recipe/".$recipe;
 
         DatabaseManager::AddRecipeToUser($user = Auth::user()->id, $the_recipe);
 
-        return $this->GenerateDeleteButton($recipe);
+        return RecipeToHtml::GenerateDeleteButton($recipe);
     }
 
 
+    /**
+     * @param $recipe
+     * @return string
+     */
     public function deleteRecipe($recipe) {
 
         $the_recipe = "http://www.yummly.com/recipe/".$recipe;
@@ -51,56 +102,18 @@ class MainPageController extends BaseController {
     }
 
 
-
+    /**
+     * @param $recipe
+     * @param string $ingredients
+     * @return mixed
+     */
     public function refreshRecipe($recipe, $ingredients = "") {
         return YummlyCommunicator::getRecipe($ingredients, true, false);
     }
 
+    #endregion
 
 
-    public function GenerateSaveButton($recipe) {
-
-        $button  = '<button class="form-control"';
-        $button .= 'id="a_'.$recipe.'" ';
-        $button .= 'onclick="saveRecipe(this)">';
-        $button .= '<span class="glyphicon glyphicon-upload"/>&nbsp</span>Save</button><br/>';
-
-        return $button;
-    }
-
-
-    public function GenerateDeleteButton($recipe) {
-
-        $button  = '<button class="form-control"';
-        $button .= 'id="a_'.$recipe.'" ';
-        $button .= 'onclick="deleteRecipe(this.id)">';
-        $button .= '<span class="glyphicon glyphicon-upload"/>&nbsp</span>Delete</button><br/>';
-
-        return $button;
-    }
-
-
-    public function GenerateRefreshButton($recipe) {
-
-        $button  = '<button class="form-control"';
-        $button .= 'id="'.$recipe.'" ';
-        $button .= 'value="refresh"';
-        $button .= 'onclick="addRecipe(this, this.id, this.value)">';
-        $button .= '<span class="glyphicon glyphicon-refresh"/>&nbsp</span>Refresh</button><br/>';
-
-        return $button;
-    }
-
-
-    public function GenerateSimpleRefreshButton($recipe) {
-
-        $button  = '<button class="form-control"';
-        $button .= 'id="'.$recipe.'" ';
-        $button .= 'onclick="refreshRecipe(this.id)">';
-        $button .= '<span class="glyphicon glyphicon-refresh"/>&nbsp</span>Refresh</button><br/>';
-
-        return $button;
-    }
 
     #region unused
 
@@ -134,5 +147,50 @@ class MainPageController extends BaseController {
 //        return $result;
 //    }
 
+
+
+//    public function GenerateSaveButton($recipe) {
+//
+//        $button  = '<button class="form-control"';
+//        $button .= 'id="a_'.$recipe.'" ';
+//        $button .= 'onclick="saveRecipe(this)">';
+//        $button .= '<span class="glyphicon glyphicon-upload"/>&nbsp</span>Save</button><br/>';
+//
+//        return $button;
+//    }
+//
+//
+//    public function GenerateDeleteButton($recipe) {
+//
+//        $button  = '<button class="form-control"';
+//        $button .= 'id="a_'.$recipe.'" ';
+//        $button .= 'onclick="deleteRecipe(this.id)">';
+//        $button .= '<span class="glyphicon glyphicon-upload"/>&nbsp</span>Delete</button><br/>';
+//
+//        return $button;
+//    }
+//
+//
+//    public function GenerateRefreshButton($recipe) {
+//
+//        $button  = '<button class="form-control"';
+//        $button .= 'id="'.$recipe.'" ';
+//        $button .= 'value="refresh"';
+//        $button .= 'onclick="addRecipe(this, this.id, this.value)">';
+//        $button .= '<span class="glyphicon glyphicon-refresh"/>&nbsp</span>Refresh</button><br/>';
+//
+//        return $button;
+//    }
+//
+//
+//    public function GenerateSimpleRefreshButton($recipe) {
+//
+//        $button  = '<button class="form-control"';
+//        $button .= 'id="'.$recipe.'" ';
+//        $button .= 'onclick="refreshRecipe(this.id)">';
+//        $button .= '<span class="glyphicon glyphicon-refresh"/>&nbsp</span>Refresh</button><br/>';
+//
+//        return $button;
+//    }
     #endregion
 }
