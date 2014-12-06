@@ -6,7 +6,7 @@
 @stop
 
 @section('scripts')
-     <script src="scripts/mainPage.js"></script>
+     <script src="scripts/mainpage.js"></script>
      <script src="scripts/general.js"></script>
 @stop
 
