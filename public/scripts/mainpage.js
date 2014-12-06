@@ -11,18 +11,14 @@ function createXMLHttpRequest() {
 
 function refreshRecipe(id)
 {
-    alert("1 | refresh recipe called");
+
     var xmlhttp = createXMLHttpRequest();
 
     var hidden_id = "hid" + id;
     var div_id = "div" + id;
     var div = document.getElementById(div_id).parentElement;
 
-    alert("2 | basic elements received");
-
     var ingredients = document.getElementById(hidden_id).innerHTML;
-
-    alert("3 | Ingredients obtained");
 
     div.innerHTML = "loading ...";
 
@@ -47,13 +43,9 @@ function refreshRecipe(id)
 
 function saveRecipe(button) {
 
-    alert("1 | save recipe called");
-
     var xmlhttp = createXMLHttpRequest();
 
     var div = button.parentElement;
-
-    alert("2 | basic elements received");
 
     xmlhttp.onreadystatechange = function()
     {
@@ -77,13 +69,9 @@ function saveRecipe(button) {
 
 function deleteRecipe(button_id) {
 
-    alert("1 | delete recipe called");
-
     var xmlhttp = createXMLHttpRequest();
     var id = "div" + button_id.slice(2);
     var div = document.getElementById(id).parentNode;
-
-    alert("2 | basic elements received");
 
     xmlhttp.onreadystatechange = function()
     {
