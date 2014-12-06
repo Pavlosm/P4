@@ -123,7 +123,8 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
         'Barryvdh\Debugbar\ServiceProvider',
         'Pav\Communicators\YummlyCommServiceProvider',
-        'Pav\DBManager\DatabaseManagerServiceProvider'
+        'Pav\DBManager\DatabaseManagerServiceProvider',
+        'Pav\RecipeToHtml\RecipeToHtmlServiceProvider'
 
 	),
 

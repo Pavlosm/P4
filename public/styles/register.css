@@ -1,0 +1,8 @@
+.err {
+    color: #a51b04;
+}
+.note {
+    font-weight: lighter;
+    font-style: italic;
+    font-size: small;
+}

@@ -2,6 +2,7 @@
 
 
 namespace Pav\DBManager;
+
 use Recipe;
 use User;
 use Recipe_User;
@@ -34,7 +35,6 @@ class DatabaseManager {
 
         $rec = Recipe::where('recipe', '=', $recipe)->first();
 
-
         if ($rec) {
             try {
                 $rec->delete();
@@ -63,7 +63,7 @@ class DatabaseManager {
      *
      * @return string
      */
-    public function AddRecipeToUser($recipe, $userId) {
+    public function AddRecipeToUser($userId, $recipe) {
 
         # try to get the user associated with the userId, if there is no
         # user then return ...
@@ -119,6 +119,17 @@ class DatabaseManager {
      */
     public function UpdateUserRecipe($oldRecipeId, $recipe, $userId) {
 
+        $user = User::find($userId);
+
+        $rec = Recipe::where('recipe', '=', $recipe)->first();
+
+        if (!$rec) {
+            $rec = new Recipe();
+            $rec->recipe = $recipe;
+            $rec->save();
+        }
+
+        $user->recipes()->updateExistingPivot($oldRecipeId, array('recipe_id' => $rec->id), false);
 
     }
 
@@ -153,35 +164,54 @@ class DatabaseManager {
      * the recipe from the recipes table.
      *
      * Steps:
-     *      1. Get the user-recipe pair in the pivot table and remove it
-     *      2. search if there is any other entry for that recipe in the
-     *         pivot table
-     *      3. If there is no other entry then go to the recipes table and
-     *         remove the recipe
+     *      1. Get the user
+     *      2. detach the recipe (no error if there is none)
+     *      3. If there is no other entry for that recipe then go to the
+     *         recipes table and remove the recipe
      *
-     * @param $recipeId int the unique ID of the recipe
+     * @param $recipe string the unique ID of the recipe
+     * @param $userId int the unique ID of the user
      */
-    public function RemoveUserRecipe($userId, $recipeId) {
+    public function RemoveUserRecipe($userId, $recipe) {
+
+        $r = Recipe::where('recipe', '=', $recipe)->first();
 
         $user = User::find($userId);
-        $user->recipes()->detach();
+        $user->recipes()->detach($r);
 
+        if ( $r && ! $r->users()->first() ) {
+            Recipe::destroy($r->id);
+        }
     }
 
 
 
     public function GetUserRecipes($userId) {
 
-        $recipes = User::find($userId)->recipes;
-
-        foreach ( $recipes as $rec ) {
-            echo $rec->recipe;
-        }
+        return User::find($userId)->recipes;
     }
 
     public function test() {
 
-        $this->RemoveRecipe('test recipe');
+        $user = User::find(4);
+
+        if ($user->recipes()->first()) {
+            return "true";
+        } else {
+            return "false";
+        }
         return 'Worked';
+    }
+
+
+    public function CreateRecipe($recipe) {
+
+        $rec = Recipe::where('recipe', '=', $recipe)->first();
+
+        if (!$rec) {
+            $rec = new Recipe();
+            $rec->recipe = $recipe;
+            $rec->save();
+        }
     }
 }

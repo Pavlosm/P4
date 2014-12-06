@@ -11,7 +11,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
+    <script src="jquery-1.11.1.min.js"></script>
     <style>
         .footer {
             background-color: #14263d;
@@ -23,9 +23,9 @@
 
     </style>
 
-
     @yield('style')
-    @yield('header-scripts')
+
+    @yield('scripts')
 
 </head>
 <body>
@@ -62,7 +62,7 @@
           </div><!-- /.container-fluid -->
         </div>
 
-            @yield('main-body')
+        @yield('main-body')
 
     </div>
 </body>

@@ -1,41 +1,12 @@
 @extends('BaseTemplate')
 
 @section('style')
-    <style>
+     <link rel="stylesheet" href="styles/mainpage.css" type="text/css">
+@stop
 
-        .warning {
-            background-color: #f5f3fb;
-
-        }
-
-        .recipes {
-            padding: 15px;
-            background-color: #f4ff7b;
-            border-radius: 10px;
-            border-color: #ececec;
-            border-bottom-style: solid;
-            -webkit-box-shadow: 0 10px 6px -6px #777;
-            -moz-box-shadow: 0 10px 6px -6px #777;
-            box-shadow: 0 10px 6px -6px #777;
-        }
-
-        .form {
-            padding-left: 20px;
-            background-color: #eceaff;
-            border-radius: 10px;
-        }
-
-        img {
-            width: 100%;
-        }
-        .image {
-            padding-bottom: 10px;
-        }
-        .txt {
-            color: white;
-        }
-    </style>
-
+@section('scripts')
+     <script src="scripts/mainPage.js"></script>
+     <script src="scripts/general.js"></script>
 @stop
 
 @section('navbar')
@@ -67,8 +38,6 @@
                 <a href='/login'>Log in</a>
             </li>
          @endif
-
-
     </ul>
 @stop
 
@@ -84,39 +53,47 @@
         </p>
     </div>
 
-
     <br/>
 
     <h2>Create a menu</h2>
+    {{ Form::open(array('class'=>'form-signin','url'=>'/main', 'method'=>'POST', 'role'=>'form')) }}
     <div class="row form">
-        {{ Form::open(array('class'=>'form-signin','url'=>'/main', 'method'=>'POST', 'role'=>'form')) }}
-            <!-- Ingredients text box -->
-            <div class="col-sm-7">
-                {{ Form::label('ingr', 'Ingredients (separate with comma for separate recipes)') }}
-                {{ Form::text('ingredients', null, array('class' => 'form-control', 'placeholder' => 'type ingredients')) }}
-                <br/>
-            </div>
-            <!-- Number of dinners -->
-            <div class="col-sm-2 form">
-                {{ Form::label('numOfDays', 'Dinners') }}
-                {{ Form::select('numOfDays', [ '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6',
-                                                '7' => '7'], '5', array('class' => 'form-control select')) }}
-            </div>
-            <!-- Submit it -->
-            <div class="col-sm-3"><br/>
-                {{ Form::submit('Get Menu', array('class' => 'btn btn-primary  btn-block')) }}<br/>
-            </div>
-        {{ Form::close() }}
+        <div class="col-sm-4">
+            {{ Form::submit('Get My Recipes', array('name' => 'get_my_recipes', 'class' => 'btn btn-primary  btn-block')) }}
+        </div>
     </div>
+    <br/>
+    <div class="row form">
+
+        <!-- Ingredients text box -->
+        <div class="col-sm-2">
+            {{ Form::label('numOfDays', 'Number of meals') }}
+            <br/>
+        </div>
+        <!-- Number of dinners -->
+        <div class="col-sm-4 form">
+            {{ Form::select('numOfDays', [ '0' => '0', '1' => '1', '2' => '2', '3' => '3', '4' => '4',
+                                                   '5' => '5', '6' => '6', '7' => '7'], '0',
+                                                   array('class' => 'form-control select', 'id' => 'mySelect',
+                                                         'onchange' => 'createNewTextBoxes()')) }}
+        </div>
+        <!-- Submit it -->
+        <div class="col-sm-3"><br/>
+
+        </div>
+    </div>
+    <br/>
+    <div id="newForm" class="wrapper-dropdown-2 row form">
+
+    </div>
+    {{ Form::close() }}
     <div class="recipe_container">
         <h2> Recipes </h2>
 
         @if( isset($response) )
             {{ $response }}
         @endif
-        @if( isset($userID))
-            {{ $userID }}
-        @endif
+
     </div>
     <br/>
 @stop
