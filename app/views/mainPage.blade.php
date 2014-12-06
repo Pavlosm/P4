@@ -14,7 +14,7 @@
     <ul class="nav navbar-nav navbar-right">
         @if(Auth::check())
             <li class="active">
-                <a href='/logout'>Log out </a>
+                <a href='/logout'>Log out<br/>{{ Auth::user()->email; }} </a>
             </li>
             <li>
                 or
@@ -24,9 +24,6 @@
             </li>
             <li>
                 or
-            </li>
-            <li class="txt">
-                {{ Auth::user()->email; }}
             </li>
         @else
             <li class="active">
@@ -99,13 +96,13 @@
     </div>
     <br/>
 
-        <script type="text/javascript">
-                $('.h3toggle').next('.cont').hide();
+    <script type="text/javascript">
+        $('.h3toggle').next('.cont').hide();
 
-                $('.h3toggle').click(function () {
-                    var el = $(this).next('.cont');
-                    check = el.is(':visible') ? el.slideUp() : ($('.cont').slideUp())(el.slideDown());
-                });
-            </script>
+        $('.h3toggle').click(function () {
+            var el = $(this).next('.cont');
+            check = el.is(':visible') ? el.slideUp() : ($('.cont').slideUp())(el.slideDown());
+        });
+    </script>
 
 @stop

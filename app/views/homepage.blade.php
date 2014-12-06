@@ -100,5 +100,12 @@
         @endif
     </div>
     <br/>
+    <script type="text/javascript">
+        $('.h3toggle').next('.cont').hide();
 
+        $('.h3toggle').click(function () {
+            var el = $(this).next('.cont');
+            check = el.is(':visible') ? el.slideUp() : ($('.cont').slideUp())(el.slideDown());
+        });
+    </script>
 @stop
