@@ -57,6 +57,7 @@ class YummlyCommunicator {
      *
      * @param $isLoggedIn bool true if user is logged in false otherwise
      * @param $ingredients array strings the ingredients " " separated
+     * @param
      * @return string the recipe in HTML format
      */
     public function getRecipe($ingredients, $isLoggedIn, $includeContainer) {
@@ -170,6 +171,31 @@ class YummlyCommunicator {
 
         return $this->recipeToHtml->recipeToHtml($image, $recURLLink, $ingredients, $recId, $this->search_parameters,
             $this->isLoggedIn, $includeContainer);
+    }
+
+    public function GetTheRecipe($recipeId) {
+
+        $this->Initialize();
+
+
+        # get the recipe corresponding to the index above
+        $this->getApiUrl .= $recipeId;
+
+        # create the url query to get the recipe and get it
+        $this->getApiUrl .= '?_app_id='.$this->id.'&_app_key='.$this->key;
+        $theRecipe = $this->call($this->getApiUrl);
+
+        # obtain the required recipe parameters for display
+        $pre = $theRecipe['attribution']['url'];
+        $recId = str_replace("http://www.yummly.com/recipe/", "", $pre);
+
+
+        $recURLLink = '<a class="image-provided" href="'.$theRecipe['attribution']['url'].'" target="blank">'.$theRecipe['name'].
+            '</a><br />information provided by <img src="'.$theRecipe['attribution']['logo'].'"/>';
+        $image = $theRecipe['images'][0]['hostedSmallUrl'];
+        $ingredients = $theRecipe['ingredientLines'];
+
+        return $this->recipeToHtml->recipeToHtml2($image, $recURLLink, $ingredients, $recId);
     }
 
 

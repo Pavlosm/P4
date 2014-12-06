@@ -74,6 +74,42 @@ class RecipeToHtml {
         return $ret;
     }
 
+
+    public function recipeToHtml2($image, $recipe, $ingredients, $recId)
+    {
+           // $ret  = '<div class="recipes">';
+
+        $ret  =     '<div class="row" id="div'.$recId.'">';
+        $ret .=         '<div class="col-md-2">';
+        $ret .=             '<img src="'.$image.'" alt="recipe"/>';
+        $ret .=         '</div>';
+        $ret .=         '<div class="col-md-4">';
+        $ret .=             $recipe;
+        $ret .=         '</div>';
+        $ret .=         '<div class="col-md-4">';
+
+        if (is_array($ingredients)) {
+            foreach ($ingredients as $ing) {
+                $ret .= $ing."<br/>";
+            }
+        } else {
+            $ret .= $ingredients."<br/>";
+        }
+
+        $ret .=         '</div>';
+        $ret .=         '<div class="col-md-2">';
+
+        $ret .= $this->GenerateDeleteButton($recId);
+
+        $ret .=         '</div>';
+        $ret .=     '</div>';
+
+        return $ret;
+    }
+
+
+
+
     /**
      * Adds a refresh and a save button
      * @return string

@@ -46,7 +46,16 @@ class MainPageController extends BaseController {
 
     private function getMyRecipesSubmit() {
 
-        return "will get them";
+        $result = "";
+        $user = Auth::user();
+
+        $recipes = $user->recipes;
+
+        foreach ($recipes as $recipe) {
+
+            $result .= YummlyCommunicator::GetTheRecipe($recipe->recipe);
+        }
+        return $result;
     }
 
 

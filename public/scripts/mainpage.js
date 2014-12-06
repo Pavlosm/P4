@@ -2,8 +2,6 @@ function refreshRecipe(id)
 {
     var xmlhttp = createXMLHttpRequest();
 
-    var container = document.getElementById('recipes-container');
-
     var hidden_id = "hid" + id;
     var div_id = "div" + id;
     var div = document.getElementById(div_id).parentElement;
@@ -97,39 +95,6 @@ function saveRecipe(button) {
 
 }
 
-function refreshRecipe(button_id) {
-
-    var xmlhttp = createXMLHttpRequest();
-
-
-    var hidden_id = "hid" + button_id;
-    var div_id = "div" + button_id;
-    var div = document.getElementById(div_id).parentElement;
-
-    var ingredients = document.getElementById(hidden_id).innerHTML;
-
-    div.innerHTML = "loading ...";
-
-    xmlhttp.onreadystatechange = function()
-    {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            div.innerHTML = xmlhttp.responseText;
-        }
-        else {
-            div.innerHTML = xmlhttp.readyState + " || " + xmlhttp.status;
-        }
-    }
-
-    var query = "main/refresh";
-
-    if(ingredients.trim() != "") {
-        query += "/" + ingredients;
-    }
-
-    xmlhttp.open("POST", query, true);
-    xmlhttp.send();
-
-}
 
 function deleteRecipe(button_id) {
 
