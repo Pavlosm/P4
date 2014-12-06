@@ -60,10 +60,6 @@ function saveRecipe(button) {
     var query = "main/save/" + button.id.slice(2);
     xmlhttp.open("POST", query, true);
     xmlhttp.send();
-
-
-
-
 }
 
 
@@ -86,6 +82,5 @@ function deleteRecipe(button_id) {
     xmlhttp.open("POST", query, true);
     xmlhttp.send();
 }
-
 
 

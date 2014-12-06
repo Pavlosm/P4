@@ -6,14 +6,15 @@
 
 
 .recipes {
-     padding: 15px;
-     background-color: #fffbf4;
-     border-radius: 10px;
-     border-color: #eaecc8;
-     border-bottom-style: solid;
-     -webkit-box-shadow: 0 10px 6px -6px #777;
-     -moz-box-shadow: 0 10px 6px -6px #777;
-     box-shadow: 0 10px 6px -6px #777;
+    padding: 15px;
+    background-color: #fffbf4;
+    border-radius: 10px;
+    border-color: #eaecc8;
+    border-bottom-style: solid;
+    max-width: 1000px;
+    -webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;
  }
 
 .warning {
@@ -37,4 +38,8 @@ img {
 
 .logo {
     max-width: 100px;
+}
+
+.h3toggle {
+    cursor: pointer;
 }

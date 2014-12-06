@@ -33,24 +33,8 @@ class RecipeToHtml {
 
 
         $ret .=     '<div class="row" id="div'.$recId.'">';
-        $ret .=         '<div class="col-md-2">';
-        $ret .=             '<img src="'.$image.'" alt="recipe"/>';
-        $ret .=         '</div>';
-        $ret .=         '<div class="col-md-4">';
-        $ret .=             $recipe;
-        $ret .=         '</div>';
-        $ret .=         '<div class="col-md-4">';
-
-        if (is_array($ingredients)) {
-            foreach ($ingredients as $ing) {
-                $ret .= $ing."<br/>";
-            }
-        } else {
-            $ret .= $ingredients."<br/>";
-        }
-
-        $ret .=         '</div>';
-        $ret .=         '<div class="col-md-2">';
+        $ret .= $this->addImageRecipe($image, $recipe);
+        $ret .=         '<div class="col-md-5">';
 
         if ($isLoggedIn) {
             $ret .= $this->Add_Refresh_Put_Buttons($recId);
@@ -65,7 +49,7 @@ class RecipeToHtml {
         $ret .=             $searchParameters;
         $ret .=         '</div>';
         $ret .=     '</div>';
-
+        $ret .= $this->addIngredients($ingredients);
         if ($includeContainer) {
             $ret .= '</div>';
             $ret .= '<br/>';
@@ -80,13 +64,21 @@ class RecipeToHtml {
         $ret  = '<div class="recipes">';
 
         $ret .=     '<div class="row" id="div'.$recId.'">';
-        $ret .=         '<div class="col-md-2">';
-        $ret .=             '<img src="'.$image.'" alt="recipe"/>';
+        $ret .= $this->addImageRecipe($image, $recipe);
+        $ret .=         '<div class="col-md-5">';
+
+        $ret .= $this->GenerateDeleteButton($recId);
         $ret .=         '</div>';
-        $ret .=         '<div class="col-md-4">';
-        $ret .=             $recipe;
-        $ret .=         '</div>';
-        $ret .=         '<div class="col-md-4">';
+        $ret .=     '</div>';
+        $ret .= $this->addIngredients($ingredients);
+        $ret .= '</div><br />';
+        return $ret;
+    }
+
+    private function addIngredients($ingredients) {
+
+        $ret =     '<h3 class="h3toggle"><span class="glyphicon glyphicon-chevron-down">&nbspIngredients</span></h3>';
+        $ret .=         '<div class="cont">';
 
         if (is_array($ingredients)) {
             foreach ($ingredients as $ing) {
@@ -97,16 +89,20 @@ class RecipeToHtml {
         }
 
         $ret .=         '</div>';
-        $ret .=         '<div class="col-md-2">';
 
-        $ret .= $this->GenerateDeleteButton($recId);
-
-        $ret .=         '</div>';
-        $ret .=     '</div>';
-        $ret .= '</div><br />';
         return $ret;
     }
 
+
+    private function addImageRecipe($image, $recipe) {
+        $ret  =         '<div class="col-md-2">';
+        $ret .=             '<img src="'.$image.'" alt="recipe"/>';
+        $ret .=         '</div>';
+        $ret .=         '<div class="col-md-5">';
+        $ret .=             $recipe;
+        $ret .=         '</div>';
+        return $ret;
+    }
 
 
 

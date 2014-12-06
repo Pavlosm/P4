@@ -59,6 +59,7 @@
     <h2>Create a menu</h2>
     {{ Form::open(array('class'=>'form-signin','url'=>'/main', 'method'=>'POST', 'role'=>'form')) }}
     <div class="row form">
+
         <div class="col-sm-4">
             {{ Form::submit('Get My Recipes', array('name' => 'get_my_recipes', 'class' => 'btn btn-primary  btn-block')) }}
         </div>
@@ -97,4 +98,14 @@
 
     </div>
     <br/>
+
+        <script type="text/javascript">
+                $('.h3toggle').next('.cont').hide();
+
+                $('.h3toggle').click(function () {
+                    var el = $(this).next('.cont');
+                    check = el.is(':visible') ? el.slideUp() : ($('.cont').slideUp())(el.slideDown());
+                });
+            </script>
+
 @stop
