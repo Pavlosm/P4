@@ -22,17 +22,11 @@ function openNext() {
 
 @section('main-body')
 
-<div id="one" onclick="openNext()">
-    some text here
-</div>
+{{ Form::open(array('url' => '/add_recipe')) }}
 
-<div id="expand">
 
-</div>
-<div id="hidden">
-    am I there?
-
-</div>
+{{ Form::submit('Submit') }}
+{{ Form::close() }}
 
 
 @stop

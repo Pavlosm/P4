@@ -26,9 +26,10 @@ function refreshRecipe(id)
     {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             div.innerHTML = xmlhttp.responseText;
-        } else {
-            div.innerHTML = xmlhttp.readyState + " || " + xmlhttp.status;
         }
+        //else {
+        //    div.innerHTML = xmlhttp.readyState + " || " + xmlhttp.status;
+        //}
     }
 
     var query = "main/refresh/" + id;
@@ -38,6 +39,7 @@ function refreshRecipe(id)
 
     xmlhttp.open("POST", query, true);
     xmlhttp.send();
+
 }
 
 
@@ -52,9 +54,9 @@ function saveRecipe(button) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             div.innerHTML = xmlhttp.responseText;
         }
-        else {
-            div.innerHTML = xmlhttp.readyState + " || " + xmlhttp.status;
-        }
+        //else {
+        //    div.innerHTML = xmlhttp.readyState + " || " + xmlhttp.status;
+        //}
     }
 
     var query = "main/save/" + button.id.slice(2);
@@ -73,12 +75,43 @@ function deleteRecipe(button_id) {
     {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             div.parentNode.removeChild(div);
-        } else {
-            div.innerHTML = xmlhttp.readyState + " || " + xmlhttp.status;
         }
+
+
+        //else {
+        //    div.innerHTML = xmlhttp.readyState + " || " + xmlhttp.status;
+        //}
+
     }
 
     var query = "main/delete/" + button_id.slice(2);
+    xmlhttp.open("POST", query, true);
+    xmlhttp.send();
+}
+
+
+function rateRecipe(selection_id) {
+
+    var id = "#"+selection_id;
+    var newRating = $( (id + " option:selected")).text();
+    var recipe = selection_id.slice(2);
+    var returnHeaderId = "r_" + recipe;
+    var change = document.getElementById(returnHeaderId);
+    var query = "main/rate/" + recipe + "/" + newRating;
+
+    var xmlhttp = createXMLHttpRequest();
+
+    xmlhttp.onreadystatechange = function()
+    {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            change.innerHTML = xmlhttp.responseText;
+        }
+        //else {
+        //    change.innerHTML = xmlhttp.readyState + " || " + xmlhttp.status;
+        //}
+    }
+
+
     xmlhttp.open("POST", query, true);
     xmlhttp.send();
 }

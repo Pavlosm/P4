@@ -156,7 +156,6 @@ class DatabaseManager {
     }
 
 
-
     /**
      * Removes a recipe - user tuple from the pivot table, and if there is
      * no other entry in the pivot table with that recipe then it removes
@@ -191,15 +190,4 @@ class DatabaseManager {
     }
 
 
-
-//    public function CreateRecipe($recipe) {
-//
-//        $rec = Recipe::where('recipe', '=', $recipe)->first();
-//
-//        if (!$rec) {
-//            $rec = new Recipe();
-//            $rec->recipe = $recipe;
-//            $rec->save();
-//        }
-//    }
 }

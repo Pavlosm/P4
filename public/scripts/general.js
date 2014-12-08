@@ -15,7 +15,7 @@ function createNewTextBoxes() {
     text += "(<i>if you do not want to specify any ingredients just leave the " +
             "text box empty and a random ingredient will be added)</i><br/>";
 
-    for (i = 1; i <= number; i++) {
+    for (var i = 1; i <= number; i++) {
         text += "<div class=\"row\"><div class=\"col-md-2 form\">";
         text += "<label>Recipe " + i + ":</label></div><div class=\"col-md-10 form\">";
         text += "<input type=\"text\" name=\"ing" + i + "\" class=\"form-control\"";

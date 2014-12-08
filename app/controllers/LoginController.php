@@ -18,10 +18,10 @@ class LoginController extends BaseController {
                                          ->withErrors($validator);
         }
 
-
         $credentials = Input::only('email', 'password');
+        $remember = (Input::get('keepLoggedIn') == 'yes') ? true : false;
 
-        if (Auth::attempt($credentials, $remember = true)) {
+        if (Auth::attempt($credentials, $remember )) {
 
             return Redirect::intended('/main')->with('flash_message', 'Welcome Back!');
         }

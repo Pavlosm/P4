@@ -32,6 +32,8 @@
                     @endif
                     <br/><br/>
                     {{ Form::submit('Sign In', array('class' => 'btn btn-primary  btn-block')) }}<br/>
+                     Stay signed in &nbsp; {{ Form::checkbox('keepLoggedIn', 'yes')}}
+
                 {{ Form::close() }}
                 <br/>
             </div>

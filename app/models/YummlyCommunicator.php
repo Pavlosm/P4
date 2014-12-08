@@ -137,6 +137,7 @@ class YummlyCommunicator {
      * call to Yummly API to get a random recipe.
      *
      * @param $results array the JSON decoded array of the search results
+     * @param
      * @return string the recipe in HTML format
      */
     private function getRandomRecipe($results, $includeContainer) {
@@ -152,6 +153,10 @@ class YummlyCommunicator {
         }
         $recipeIndex = rand(0, intval($range));
 
+        if ($recipeIndex == 0 ) {
+            return $this->recipeToHtml->noRecipeFound($includeContainer, $this->search_parameters);
+        }
+
         # get the recipe corresponding to the index above
         $this->getApiUrl .= $results['matches'][$recipeIndex]['id'];
 
@@ -164,16 +169,24 @@ class YummlyCommunicator {
         $recId = str_replace("http://www.yummly.com/recipe/", "", $pre);
 
 
-        $recURLLink = '<a class="image-provided" href="'.$theRecipe['attribution']['url'].'" target="blank">'.$theRecipe['name'].
-            '</a><br /><br />information provided by <img class="logo" src="'.$theRecipe['attribution']['logo'].'"/>';
-        $image = $theRecipe['images'][0]['hostedSmallUrl'];
+        $recURLLink = '<a class="image-provided" href="'.$theRecipe['attribution']['url'].'" target="blank">'
+                      .$theRecipe['name'].'</a><br /><br />information provided by <img class="logo" src="'
+                      .$theRecipe['attribution']['logo'].'"/>';
+
+        try {
+            $image = $theRecipe['images'][0]['hostedSmallUrl'];
+        } catch (\ErrorException $e) {
+            $image = 'No image available';
+        }
+
+
         $ingredients = $theRecipe['ingredientLines'];
 
         return $this->recipeToHtml->recipeToHtml($image, $recURLLink, $ingredients, $recId, $this->search_parameters,
             $this->isLoggedIn, $includeContainer);
     }
 
-    public function GetTheRecipe($recipeId) {
+    public function GetTheRecipe($recipeId, $recipe) {
 
         $this->Initialize();
 
@@ -195,7 +208,7 @@ class YummlyCommunicator {
         $image = $theRecipe['images'][0]['hostedSmallUrl'];
         $ingredients = $theRecipe['ingredientLines'];
 
-        return $this->recipeToHtml->recipeToHtml2($image, $recURLLink, $ingredients, $recId);
+        return $this->recipeToHtml->recipeToHtml2($image, $recURLLink, $ingredients, $recId, $recipe);
     }
 
 

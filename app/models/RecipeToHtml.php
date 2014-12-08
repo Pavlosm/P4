@@ -31,7 +31,6 @@ class RecipeToHtml {
             $ret = "";
         }
 
-
         $ret .=     '<div class="row" id="div'.$recId.'">';
         $ret .= $this->addImageRecipe($image, $recipe);
         $ret .=         '<div class="col-md-5">';
@@ -44,11 +43,7 @@ class RecipeToHtml {
 
         $ret .=         '</div>';
         $ret .=     '</div>';
-        $ret .=     '<div class="row hidden" style="display: none;">';
-        $ret .=         '<div id="hid'.$recId.'">';
-        $ret .=             $searchParameters;
-        $ret .=         '</div>';
-        $ret .=     '</div>';
+        $ret .= $this->addHiddenSearchParameters($recId, $searchParameters);
         $ret .= $this->addIngredients($ingredients);
         if ($includeContainer) {
             $ret .= '</div>';
@@ -59,13 +54,32 @@ class RecipeToHtml {
     }
 
 
-    public function recipeToHtml2($image, $recipe, $ingredients, $recId)
+    public function noRecipeFound($includeContainer, $searchParameters)
+    {
+        if ($includeContainer) {
+            $ret  = '<div class="recipes">';
+        } else {
+            $ret = "";
+        }
+
+        $ret .= 'No recipe found for: '.$searchParameters;
+
+        if ($includeContainer) {
+            $ret .= '</div>';
+            $ret .= '<br/>';
+        }
+        return $ret;
+    }
+
+
+    public function recipeToHtml2($image, $recipe, $ingredients, $recId, $recipe2)
     {
         $ret  = '<div class="recipes">';
 
         $ret .=     '<div class="row" id="div'.$recId.'">';
         $ret .= $this->addImageRecipe($image, $recipe);
-        $ret .=         '<div class="col-md-5">';
+        $ret .= $this->addRating($recipe2);
+        $ret .=         '<div class="col-md-3">';
 
         $ret .= $this->GenerateDeleteButton($recId);
         $ret .=         '</div>';
@@ -75,10 +89,26 @@ class RecipeToHtml {
         return $ret;
     }
 
-    private function addIngredients($ingredients) {
+    #endregion
 
-        $ret =     '<h3 class="h3toggle"><span class="glyphicon glyphicon-chevron-down">&nbspIngredients</span></h3>';
-        $ret .=         '<div class="cont">';
+
+    #region Helper methods for html formatting
+
+    private function addHiddenSearchParameters($recipe_id, $searchParameters)
+    {
+        $ret  =     '<div class="row hidden" style="display: none;">';
+        $ret .=         '<div id="hid'.$recipe_id.'">';
+        $ret .=             $searchParameters;
+        $ret .=         '</div>';
+        $ret .=     '</div>';
+        return $ret;
+    }
+
+
+    private function addIngredients($ingredients)
+    {
+        $ret  = '<h4 class="h3toggle"><span class="glyphicon glyphicon-chevron-down">&nbspIngredients</span></h4>';
+        $ret .= '<div class="cont">';
 
         if (is_array($ingredients)) {
             foreach ($ingredients as $ing) {
@@ -88,34 +118,57 @@ class RecipeToHtml {
             $ret .= $ingredients."<br/>";
         }
 
-        $ret .=         '</div>';
+        $ret .= '</div>';
 
         return $ret;
     }
 
 
-    private function addImageRecipe($image, $recipe) {
+    private function addImageRecipe($image, $recipe)
+    {
         $ret  =         '<div class="col-md-2">';
         $ret .=             '<img src="'.$image.'" alt="recipe"/>';
         $ret .=         '</div>';
-        $ret .=         '<div class="col-md-5">';
+        $ret .=         '<div class="col-md-4">';
         $ret .=             $recipe;
         $ret .=         '</div>';
         return $ret;
     }
 
 
+    private function addRating($recipe)
+    {
+
+        $rating = $recipe->rating;
+        $ret  = '<div class="col-md-3">';
+        $ret .= '<h4 class="h3toggle" id="r_'.$recipe->recipe.'">';
+        $ret .=     '<span class="glyphicon glyphicon-chevron-down">&nbsp;Rating: '.$rating.'</span>';
+        $ret .= '</h4>';
+        $ret .= '<div class="cont">';
+        $ret .= 'Change rating <br/>';
+        $ret .=     '<select onchange="rateRecipe(this.id)" id="s_'.trim($recipe->recipe, '"').'">';
+        $ret .=         '<option value="1">1</option>';
+        $ret .=         '<option value="2">2</option>';
+        $ret .=         '<option value="3">3</option>';
+        $ret .=         '<option value="4">4</option>';
+        $ret .=         '<option value="5">5</option>';
+        $ret .=     '</select>';
+        $ret .= '</div>';
+        $ret .= '</div>';
+
+        return $ret;
+    }
 
     /**
      * Adds a refresh and a save button
+     * @param
      * @return string
      */
-    private function Add_Refresh_Put_Buttons($recUrl) {
-
+    private function Add_Refresh_Put_Buttons($recUrl)
+    {
         $ret  = $this->GenerateSaveButton($recUrl);
         $ret .= $this->GenerateRefreshButton($recUrl);
         return $ret;
-
     }
 
     #endregion
