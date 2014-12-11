@@ -76,8 +76,6 @@ function deleteRecipe(button_id) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             div.parentNode.removeChild(div);
         }
-
-
         //else {
         //    div.innerHTML = xmlhttp.readyState + " || " + xmlhttp.status;
         //}

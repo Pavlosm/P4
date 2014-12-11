@@ -22,9 +22,6 @@ function refreshRecipe(id)
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             div.innerHTML = xmlhttp.responseText;
         }
-        else {
-            div.innerHTML = xmlhttp.readyState + " || " + xmlhttp.status;
-        }
     }
 
     var query = "ajaxRefresh";
